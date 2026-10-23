@@ -1,0 +1,1876 @@
+/* ============================================================
+   Word Detective — Slices 004a ("The Detective's Desk")
+   + 004b phase b1 (state, functional stamps, keyboard)
+
+   One bounded desk scene, 3px ink borders, 5px hard shadows,
+   tape, tilt, pop-in, hand-drawn marks — cute + polished with
+   splashes of quirky.
+
+   004b b1 additions: armed-letter folder tab on the deck,
+   keycap corner marks (R12 — no numerals), record-state stamps
+   (solved / red herring / converted, §4), orthography
+   micro-note (§8/§9 — learning feature, not a key, R14).
+
+   Also carries the .sr-only utility, relocated from Card.css
+   so it survives that file's removal (004a §17-6).
+
+   Colour notes (AA): ink #222 on paper/cream ≥12:1 · gold
+   #7a5c12 on white ≈6:1 · deep pink #c2185b on white ≈5.9:1 ·
+   #444 on white ≈9.7:1 · ink on #ffd93d ≈11:1.
+   Focus ring #c2185b: ≥3:1 on white, cream and marigold.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Screen-reader-only helper (was Card.css line 347)
+   ------------------------------------------------------------ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------
+   Section shell (game-section styles moved from App.css)
+   ------------------------------------------------------------ */
+.game-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+
+.word-detective {
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   "Word Detective" identity — stamp label + scribble + doodle
+   ------------------------------------------------------------ */
+.wd-title {
+  position: relative;
+  margin: 0;
+  display: inline-block;
+  padding: 12px 26px 14px;
+  background-color: #222;
+  color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+  transform: rotate(-1.5deg);
+  font-size: 1.7rem;
+  letter-spacing: 1px;
+}
+
+.wd-title-scribble {
+  position: absolute;
+  left: 8%;
+  bottom: -14px;
+  width: 84%;
+  height: 14px;
+  overflow: visible;
+}
+
+.wd-title-scribble path {
+  fill: none;
+  stroke: #e91e63;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.wd-title-glass {
+  position: absolute;
+  right: -44px;
+  top: -22px;
+  width: 34px;
+  height: 38px;
+  transform: rotate(12deg);
+  overflow: visible;
+}
+
+.wd-title-glass circle {
+  fill: rgba(255, 255, 255, 0.35);
+  stroke: #222;
+  stroke-width: 3;
+}
+
+.wd-title-glass path {
+  fill: none;
+  stroke: #222;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* ------------------------------------------------------------
+   The desk — bounded scene, dot-grid paper, hard shadow
+   ------------------------------------------------------------ */
+.wd-desk {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  box-sizing: border-box;
+  padding: 26px 28px 22px;
+
+  background-color: #fdf3dd;
+  background-image: radial-gradient(rgba(34, 34, 34, 0.1) 1.3px, transparent 1.4px);
+  background-size: 24px 24px;
+  background-position: 6px 6px;
+
+  border: 3px solid #222;
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 1);
+
+  display: grid;
+  grid-template-columns: minmax(190px, 240px) minmax(0, 1fr);
+  /* The notebook lies open ACROSS the desk, under the case file:
+     squeezed into a 190–240px column it was cramped (and the
+     case column beside it held a hole); across the full width it
+     is a notebook again. The desk keeps its bands — archive
+     keyboard, case file, notebook — and nothing is left over. */
+  grid-template-areas:
+    'tabs tabs'
+    'deck case'
+    'casebook casebook';
+  column-gap: 26px;
+  row-gap: 22px;
+  align-items: start;
+
+  text-align: left;
+}
+
+/* ------------------------------------------------------------
+   Case zone + idle invitation
+   ------------------------------------------------------------ */
+.wd-case-zone {
+  grid-area: case;
+  min-width: 0;
+}
+
+.wd-idle-note {
+  position: relative;
+  background: #fff;
+  border: 3px dashed #222;
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+  padding: 30px 26px 32px;
+  text-align: center;
+  transform: rotate(-0.7deg);
+}
+
+.wd-idle-title {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #222;
+}
+
+.wd-idle-copy {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #444;
+}
+
+.wd-idle-doodle {
+  display: block;
+  width: 42px;
+  margin: 16px auto 0;
+  overflow: visible;
+}
+
+.wd-idle-doodle circle,
+.wd-idle-doodle path {
+  fill: none;
+  stroke: #c2185b;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* ------------------------------------------------------------
+   The pull — the case file is being fetched. A VISIBLE state
+   in the desk's own paper-and-ink language: no spinner chrome,
+   no timer, no auto-dismiss (it lives exactly as long as the
+   loader promise does). The live region carries the same words.
+   ------------------------------------------------------------ */
+.wd-drawing {
+  position: relative;
+  background: var(--paper-pure);
+  border: 3px dashed var(--ink);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  padding: 30px 26px 32px;
+  text-align: center;
+  transform: rotate(-0.7deg);
+}
+
+.wd-drawing-title {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  font-weight: var(--weight-heavy);
+  color: var(--ink);
+}
+
+.wd-drawing-copy {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.wd-drawing-art {
+  display: block;
+  width: 116px;
+  margin: 14px auto 0;
+  overflow: visible;
+}
+
+.wd-drawing-drawer {
+  fill: var(--paper-warm);
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.wd-drawing-handle {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.wd-drawing-paper {
+  fill: var(--paper-pure);
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.wd-drawing-line {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* the sheet rises out of the drawer — the only motion in the
+   state, and the reduced-motion block takes it away entirely */
+.wd-drawing-sheet {
+  animation: wdRiffle 1.8s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------
+   The jam — a failed load, said out loud and recoverable.
+   Never a silent dead end: the way back is right here.
+   ------------------------------------------------------------ */
+.wd-error {
+  position: relative;
+  background: var(--paper-pure);
+  border: var(--rule) solid var(--ink);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  padding: 26px 26px 24px;
+  text-align: center;
+  transform: rotate(0.6deg);
+}
+
+.wd-error-title {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  font-weight: var(--weight-heavy);
+  color: var(--pink-deep);
+}
+
+.wd-error-copy {
+  margin: 0 0 16px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.wd-error-retry {
+  min-height: 44px;
+  padding: 10px 20px;
+  background: var(--marigold);
+  border: var(--rule) solid var(--ink);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+  font-weight: var(--weight-heavy);
+  font-size: 0.95rem;
+  color: var(--ink);
+  cursor: pointer;
+  transform: rotate(-1deg);
+  transition: transform 0.12s ease;
+}
+
+.wd-error-retry:hover {
+  transform: rotate(-1deg) translateY(-2px);
+}
+
+.wd-error-retry:active {
+  transform: rotate(-1deg) translate(2px, 2px);
+  transition-duration: 0.06s;
+}
+
+.wd-error-retry:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------
+   Active case file — the dominant focal object
+   ------------------------------------------------------------ */
+.wd-case {
+  position: relative;
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 1);
+  padding: 36px 30px 30px;
+  transform: rotate(-1.5deg);
+  text-align: center;
+  animation: wdPopIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+}
+
+.wd-case:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 4px;
+}
+
+/* tape strip anchoring the case to the desk */
+.wd-case::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 76px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.6);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  z-index: 2;
+}
+
+/* letter tab clipped on top of the case */
+.wd-case-letter {
+  position: absolute;
+  top: -18px;
+  left: 20px;
+  min-width: 42px;
+  height: 34px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffd93d;
+  border: 3px solid #222;
+  border-radius: 9px 9px 0 0;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #222;
+  transform: rotate(-3deg);
+  box-shadow: 2px -1px 0 rgba(0, 0, 0, 0.35);
+  z-index: 3;
+}
+
+/* evidence: the word + the context sentence */
+.wd-word {
+  margin: 0 0 8px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  color: #222;
+  overflow-wrap: anywhere;
+}
+
+.wd-sentence {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  overflow-wrap: anywhere;
+}
+
+/* marker-stroke highlight, revealed only with the learning state */
+.wd-mark {
+  background: linear-gradient(
+    transparent 55%,
+    #ffd93d 55%,
+    #ffd93d 92%,
+    transparent 92%
+  );
+  color: #222;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* the question — a paper strip with a doodled magnifier */
+.wd-question {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 18px 0 4px;
+  padding: 9px 16px;
+  background: #fff8e7;
+  border: 2px dashed #222;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #222;
+  transform: rotate(-0.8deg);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.wd-question-glass {
+  width: 22px;
+  height: 24px;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.wd-question-glass circle,
+.wd-question-glass path {
+  fill: none;
+  stroke: #c2185b;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+
+/* ------------------------------------------------------------
+   The three evidence slips — physical suspect slips, never
+   generic rectangular buttons (spec §17 visual requirement)
+   ------------------------------------------------------------ */
+.wd-slips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.wd-slip {
+  --slip-i: 0;
+  --slip-tilt: -2.2deg;
+  position: relative;
+  flex: 1 1 160px;
+  min-width: 150px;
+  max-width: 230px;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 34px 14px 16px;
+
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #222;
+  text-align: left;
+
+  cursor: pointer;
+  transform: rotate(var(--slip-tilt));
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  animation: wdSlipIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+  animation-delay: calc(var(--slip-i) * 70ms);
+}
+
+.wd-slip-0 {
+  --slip-tilt: -2.2deg;
+}
+
+.wd-slip-1 {
+  --slip-tilt: 1.6deg;
+  margin-top: 12px; /* asymmetrical placement */
+}
+
+.wd-slip-2 {
+  --slip-tilt: -0.9deg;
+}
+
+/* tape on the slip corners */
+.wd-slip::after {
+  content: '';
+  position: absolute;
+  top: -9px;
+  width: 46px;
+  height: 13px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.wd-slip-0::after {
+  left: -12px;
+  transform: rotate(-24deg);
+}
+
+.wd-slip-1::after {
+  right: -10px;
+  transform: rotate(18deg);
+}
+
+.wd-slip-2::after {
+  left: 34px;
+  transform: rotate(-8deg);
+}
+
+/* tiny evidence tag: punched hole + caption + star (caption
+   aria-hidden, so the accessible name stays the gloss text) */
+.wd-slip-tag {
+  position: absolute;
+  top: 7px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #7a5c12;
+  transform: rotate(-1.5deg);
+}
+
+.wd-slip-tag::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  box-sizing: border-box;
+  border: 2px solid #222;
+  border-radius: 50%;
+  background: #fdf3dd;
+}
+
+.wd-slip-tag svg {
+  width: 12px;
+  height: 12px;
+  overflow: visible;
+}
+
+.wd-slip-tag svg path {
+  fill: #ffd93d;
+  stroke: #222;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.wd-slip-text {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+/* hover: the slip straightens and lifts (tap equivalents below) */
+.wd-slip:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 6px 7px 0 0 rgba(0, 0, 0, 1);
+  z-index: 2;
+}
+
+.wd-slip:active {
+  transform: translate(3px, 3px) rotate(0deg);
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.08s;
+}
+
+.wd-slip:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+  z-index: 3;
+}
+
+/* locked after the guess: readable, still focusable, no lift */
+.wd-slip.is-locked {
+  cursor: default;
+}
+
+.wd-slip.is-locked:hover,
+.wd-slip.is-locked:active {
+  transform: rotate(var(--slip-tilt));
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+}
+
+/* verdict sticker on the chosen slip: shape + text, never
+   colour alone (solid ✓ pill vs dashed ✗ pill) */
+.wd-slip-verdict {
+  position: absolute;
+  top: -16px;
+  right: -12px;
+  z-index: 4;
+  padding: 5px 10px;
+  border: 2.5px solid #222;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  color: #222;
+  transform: rotate(9deg);
+  animation: wdThunk 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+}
+
+.wd-slip.is-right .wd-slip-verdict {
+  background: #ffd93d;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.wd-slip.is-wrong .wd-slip-verdict {
+  background: #fff;
+  border-style: dashed;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* one gentle settle pass on a wrong pick — never a nag */
+.wd-slip.is-wrong {
+  animation: wdSettle 0.4s ease-out;
+}
+
+/* a brief wiggle on the text of a correct pick */
+.wd-slip.is-right .wd-slip-text {
+  animation: wdWiggle 0.45s ease-out;
+}
+
+/* the revealed correct slip: hand-drawn ring + clue words */
+.wd-slip.is-clue {
+  background-color: #fffdf0;
+}
+
+.wd-slip-clue {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #c2185b;
+  transform: rotate(-1.5deg);
+}
+
+.wd-ring {
+  position: absolute;
+  top: -8px;
+  left: -7px;
+  width: calc(100% + 14px);
+  height: calc(100% + 16px);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.wd-ring ellipse {
+  fill: none;
+  stroke: #c2185b;
+  stroke-width: 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 480;
+  stroke-dashoffset: 0;
+  animation: wdRingDraw 0.55s ease-out backwards;
+}
+
+/* ------------------------------------------------------------
+   Learning state — renders in the same flow as the verdict
+   ------------------------------------------------------------ */
+.wd-learn {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 2px dashed rgba(34, 34, 34, 0.35);
+  text-align: center;
+  animation: wdReveal 0.4s ease backwards;
+}
+
+.wd-learn:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.wd-learn-kicker {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 5px 14px;
+  border: 2.5px solid #222;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #222;
+  transform: rotate(-2deg);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.wd-learn-kicker.is-right {
+  background: #ffd93d;
+}
+
+.wd-learn-kicker.is-wrong {
+  background: #fff;
+  border-style: dashed;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.wd-learn-word {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0 0 8px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #222;
+  overflow-wrap: anywhere;
+}
+
+.wd-learn-pron {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: #7a5c12;
+  letter-spacing: 0.5px;
+}
+
+.wd-learn-meaning {
+  margin: 0 0 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #222;
+}
+
+.wd-gloss-sticker {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 3px 12px;
+  background: #ffd93d;
+  border: 2.5px solid #222;
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transform: rotate(-1.5deg);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* §8 optional content lines — rendered only when the content
+   slice (004c) has filled them in; invisible while absent */
+.wd-learn-alt {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #444;
+}
+
+/* §8/§9 orthography micro-note — a taped paper scrap: a teaching
+   moment, never an alphabet key (R14; R6: no penalty language) */
+.wd-learn-ortho {
+  display: inline-block;
+  max-width: 44ch;
+  margin: 0 auto 14px;
+  padding: 7px 13px;
+  background: #fff;
+  border: 2px dashed rgba(34, 34, 34, 0.5);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #444;
+  text-align: left;
+  transform: rotate(-1deg);
+}
+
+/* a conversion says so in words — a pink taped scrap, the same
+   paper language as the orthography note (§14: state is never
+   signalled by colour alone) */
+.wd-learn-note {
+  display: inline-block;
+  max-width: 44ch;
+  margin: 0 auto 14px;
+  padding: 7px 13px;
+  background: var(--pink-soft);
+  border: 2px dashed var(--pink);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  font-size: 0.86rem;
+  font-weight: var(--weight-regular);
+  line-height: 1.5;
+  color: var(--ink);
+  text-align: left;
+  transform: rotate(-1deg);
+}
+
+/* ------------------------------------------------------------
+   Dossier progression — the current file, the "next file" note
+   and the reopen affordance.
+   ------------------------------------------------------------ */
+
+/* Which file the desk is on. Always visible, including on a
+   phone where the casebook collapses to a stamp strip. */
+.wd-current-file {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-size: 0.82rem;
+  color: #444;
+}
+
+.wd-current-file-label {
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 0.72rem;
+  color: #7a5c12;
+}
+
+.wd-current-file strong {
+  font-weight: 800;
+  color: #222;
+}
+
+/* The "this file is closed, another is waiting" note. */
+.wd-nextfile {
+  position: relative;
+  margin: 0 0 16px;
+  padding: 16px 18px 18px;
+  background: #fff8e7;
+  border: 3px solid #222;
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+  text-align: center;
+  transform: rotate(-0.8deg);
+}
+
+.wd-nextfile::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 54px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+.wd-nextfile-copy {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.wd-nextfile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 22px;
+  background: #ffd93d;
+  border: 3px solid #222;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #222;
+  cursor: pointer;
+  transform: rotate(-1deg);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.wd-nextfile-btn:hover {
+  transform: rotate(-1deg) translateY(-2px);
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 1);
+}
+
+.wd-nextfile-btn:active {
+  transform: rotate(-1deg) translate(3px, 3px);
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.06s;
+}
+
+.wd-nextfile-btn:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+/* Reopen a red herring from the learning panel. Quiet — it is an
+   offer, not a demand. */
+.wd-learn-reopen {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  background: #ffe3ec;
+  border: 2px dashed rgba(34, 34, 34, 0.4);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.wd-learn-reopen-copy {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.wd-learn-reopen-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  background: #ffd93d;
+  border: 3px solid #222;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #222;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.wd-learn-reopen-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 1);
+}
+
+.wd-learn-reopen-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.06s;
+}
+
+.wd-learn-reopen-btn:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+.wd-learn-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #222;
+  transform: rotate(-1deg);
+}
+
+.wd-learn-flourish svg {
+  width: 30px;
+  height: 24px;
+  overflow: visible;
+}
+
+.wd-learn-flourish path {
+  fill: none;
+  stroke: #e91e63;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* "Next case" — a physical paper control, never a generic button */
+.wd-next {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 11px 22px;
+  background: #ffd93d;
+  border: 3px solid #222;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #222;
+  cursor: pointer;
+  transform: rotate(-1.2deg);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.wd-next::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 16px;
+  width: 42px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transform: rotate(6deg);
+}
+
+.wd-next:hover {
+  transform: rotate(-1.2deg) translateY(-2px);
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 1);
+}
+
+.wd-next:active {
+  transform: rotate(-1.2deg) translate(3px, 3px);
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.06s;
+}
+
+.wd-next:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+.wd-next-face {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wd-next-face svg {
+  width: 30px;
+  height: 16px;
+  overflow: visible;
+}
+
+.wd-next-face path {
+  fill: none;
+  stroke: #222;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ------------------------------------------------------------
+   The deck — a physical taped pile that IS the primary
+   "Draw a case" button (spec §17-5)
+   ------------------------------------------------------------ */
+.wd-deck {
+  grid-area: deck;
+  position: relative;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 8px 6px;
+  min-height: 44px;
+  background: transparent;
+  border: 0;
+  border-radius: 14px;
+  font-family: inherit;
+  color: #222;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.wd-deck-stack {
+  position: relative;
+  display: block;
+  width: 148px;
+  height: 104px;
+}
+
+.wd-deck-edge {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.wd-deck-edge-3 {
+  transform: translate(-13px, -11px) rotate(-7deg);
+  background: #fdf3dd;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.85);
+}
+
+.wd-deck-edge-2 {
+  transform: translate(-7px, -6px) rotate(-4deg);
+  background: #fff;
+}
+
+.wd-deck-edge-1 {
+  transform: rotate(-1.5deg);
+}
+
+/* tape on the top card */
+.wd-deck-edge-1::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(3deg);
+  width: 58px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+
+.wd-deck-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #c2185b;
+  transform: rotate(-4deg);
+}
+
+.wd-deck-label {
+  display: inline-block;
+  padding: 7px 14px;
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 1);
+  font-weight: 800;
+  font-size: 0.9rem;
+  transform: rotate(-1.5deg);
+}
+
+.wd-deck:hover .wd-deck-edge-1 {
+  transform: rotate(-1.5deg) translateY(-4px);
+  box-shadow: 6px 8px 0 0 rgba(0, 0, 0, 1);
+}
+
+.wd-deck:hover .wd-deck-edge-2 {
+  transform: translate(-7px, -6px) rotate(-4deg) translateY(-2px);
+}
+
+.wd-deck:active {
+  transform: translateY(3px);
+  transition-duration: 0.07s;
+}
+
+.wd-deck:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+/* the armed letter's file folder, sticking up out of the pile —
+   visual echo of the live-region announcement (004b R1) */
+.wd-arm-tab {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  translate: -50% 0;
+  padding: 3px 11px 4px;
+  background: #ffd93d;
+  border: 3px solid #222;
+  border-bottom: 0;
+  border-radius: 9px 9px 0 0;
+  box-shadow: 2px -2px 0 rgba(0, 0, 0, 0.3);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: #222;
+  animation: wdArmIn 0.18s ease-out backwards;
+  z-index: 1;
+}
+
+.wd-deck-label.is-armed {
+  background: #ffd93d;
+}
+
+/* the deck is pulling a file: the top card lifts, the label says
+   so, and the control is busy (never a second click — busyRef
+   guards the draw itself) */
+.wd-deck.is-busy {
+  cursor: progress;
+}
+
+.wd-deck.is-busy .wd-deck-edge-1 {
+  transform: rotate(-1.5deg) translateY(-5px);
+}
+
+.wd-deck.is-busy .wd-deck-label {
+  background: var(--marigold);
+}
+
+/* ------------------------------------------------------------
+   Archive keyboard keycaps — they ARM the next case (click or
+   physical key) and never draw (004b R1); armed = yellow +
+   pressed-down; a tiny corner mark flags stamped history as an
+   experience cue only — no numerals, no meters (004b R12)
+   ------------------------------------------------------------ */
+.wd-tabs {
+  grid-area: tabs;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wd-tabs-caption {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #444;
+  transform: rotate(-1deg);
+}
+
+.wd-tabs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 2px 6px;
+}
+
+.wd-tab {
+  --tab-tilt: 0deg;
+  --tab-y: 0px;
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #222;
+  cursor: pointer;
+  transform: rotate(var(--tab-tilt)) translateY(var(--tab-y));
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.wd-tab:nth-child(3n) {
+  --tab-tilt: -2.5deg;
+}
+
+.wd-tab:nth-child(4n) {
+  --tab-tilt: 2deg;
+}
+
+.wd-tab:nth-child(5n) {
+  --tab-tilt: -1.2deg;
+}
+
+.wd-tab:hover {
+  --tab-y: -2px;
+  box-shadow: 3px 4px 0 0 rgba(0, 0, 0, 1);
+}
+
+.wd-tab:active {
+  --tab-y: 2px;
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.05s;
+}
+
+.wd-tab[aria-pressed='true'] {
+  background: #ffd93d;
+  --tab-y: 2px;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.25), 1px 1px 0 0 rgba(0, 0, 0, 1);
+}
+
+.wd-tab:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+  z-index: 2;
+}
+
+/* stamped-history corner mark — a tiny ink petal, never a
+   numeral or completion tracker; purely an experience cue (R12) */
+.wd-tab.has-stamps::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background: #222;
+  border-radius: 60% 40% 55% 45%;
+  transform: rotate(-18deg);
+  box-shadow: 0 0 0 1.5px #fff;
+}
+
+/* ------------------------------------------------------------
+   Stamp strip: superseded by the Casebook (004b §10 — the
+   notebook's stamps are the §4 visible truth). Stamp visuals
+   and the cat mascot moved to Casebook.css; the desk grid now
+   hosts the casebook area instead.
+   ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   CASE CLOSED — bounded discovery payoff inside the desk
+   (004b §10/§12/§14): a paper dialog, focus-managed, dismissible
+   ------------------------------------------------------------ */
+.wd-reveal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  box-sizing: border-box;
+  background: rgba(34, 34, 34, 0.45);
+  border-radius: 20px;
+}
+
+.wd-reveal {
+  width: min(460px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 22px 24px 18px;
+  background: #fffaf0;
+  background-image: radial-gradient(rgba(34, 34, 34, 0.07) 1.1px, transparent 1.2px);
+  background-size: 22px 22px;
+  border: 3px solid #222;
+  border-radius: 14px;
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 1);
+  transform: rotate(-0.6deg);
+  text-align: center;
+  animation: wdReveal 0.35s ease backwards;
+}
+
+.wd-reveal:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 4px;
+}
+
+.wd-reveal-scene {
+  display: block;
+  width: min(250px, 82%);
+  margin: 0 auto 6px;
+}
+
+.wd-reveal-scene rect,
+.wd-reveal-scene path,
+.wd-reveal-scene ellipse {
+  fill: none;
+  stroke: #222;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* the lifted newspaper reads as paper, not wireframe */
+.wd-reveal-scene .wd-sheet {
+  fill: #fff;
+}
+
+.wd-reveal-title {
+  margin: 0 0 8px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.wd-reveal-scene-text {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #222;
+}
+
+/* flavor rank inked on the file — narrative, never a score [R7] */
+.wd-reveal-rank {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 6px 16px;
+  border: 3px solid #c2185b;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
+  color: #c2185b;
+  transform: rotate(-3deg);
+}
+
+/* the case file's evidence page — the learned words in
+   hand-drawn framing; a list of words, not a checklist */
+.wd-reveal-page {
+  position: relative;
+  margin: 0 0 14px;
+  padding: 18px 12px 12px;
+  background: #fff;
+  border: 2.5px solid #222;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.85);
+  transform: rotate(0.4deg);
+}
+
+.wd-reveal-page-label {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  translate: -50% 0;
+  padding: 2px 10px;
+  background: #ffd93d;
+  border: 2px solid #222;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #222;
+}
+
+.wd-reveal-words {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.wd-reveal-words li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 3px;
+  border-bottom: 1.5px dashed rgba(34, 34, 34, 0.3);
+}
+
+.wd-rw-word {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #222;
+}
+
+.wd-rw-gloss {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #7a5c12;
+}
+
+/* the one quiet §12 line */
+.wd-reveal-quiet {
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: #444;
+}
+
+.wd-reveal-close {
+  min-height: 44px;
+  padding: 10px 22px;
+  background: #ffd93d;
+  border: 3px solid #222;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #222;
+  cursor: pointer;
+}
+
+.wd-reveal-close:hover {
+  transform: translateY(-1px);
+}
+
+.wd-reveal-close:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+/* The "next file" action inside the CASE CLOSED file. It shares the
+   close button's geometry but is the primary action, so it is pink. */
+.wd-reveal-next {
+  background: #c2185b;
+  color: #fffaf0;
+}
+
+.wd-reveal-next:hover {
+  background: #a9154d;
+}
+
+.wd-reveal-next:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+/* The quiet line points at the contact section. It is a real link,
+   so it must read as one. */
+.wd-reveal-quiet-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 2px;
+  font-style: italic;
+  font-weight: 700;
+  color: #c2185b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.wd-reveal-quiet-link:hover {
+  color: #7a1038;
+  text-decoration-thickness: 3px;
+}
+
+.wd-reveal-quiet-link:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------
+   Animations — short, transform/opacity only, never gating
+   information (base styles are always the resting state)
+   ------------------------------------------------------------ */
+@keyframes wdPopIn {
+  0% {
+    scale: 0.55;
+    opacity: 0;
+  }
+  70% {
+    scale: 1.05;
+    opacity: 1;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes wdSlipIn {
+  0% {
+    opacity: 0;
+    translate: 0 16px;
+    scale: 0.92;
+  }
+  100% {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@keyframes wdThunk {
+  0% {
+    transform: rotate(9deg) scale(0);
+    opacity: 0;
+  }
+  65% {
+    transform: rotate(9deg) scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(9deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes wdSettle {
+  0% {
+    translate: 0 0;
+  }
+  30% {
+    translate: 4px 0;
+  }
+  60% {
+    translate: -4px 0;
+  }
+  83% {
+    translate: 2px 0;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes wdWiggle {
+  0% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -4deg;
+  }
+  50% {
+    rotate: 3deg;
+  }
+  75% {
+    rotate: -2deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
+}
+
+@keyframes wdRingDraw {
+  0% {
+    stroke-dashoffset: 480;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes wdReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wdArmIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* the file rising out of the drawer while it is being pulled */
+@keyframes wdRiffle {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -4px;
+  }
+}
+
+/* ------------------------------------------------------------
+   Responsive — rearranged compositions, never a card list
+   ------------------------------------------------------------ */
+@media (min-width: 601px) and (max-width: 1024px) {
+  /* §15: the notebook lies across the desk under the case file
+     (the same composition the wide desk uses) */
+  .wd-desk {
+    grid-template-columns: minmax(175px, 215px) minmax(0, 1fr);
+    column-gap: 18px;
+    row-gap: 18px;
+    padding: 22px 20px 18px;
+  }
+
+  .wd-case {
+    transform: rotate(-1deg);
+    padding: 34px 22px 26px;
+  }
+
+  .wd-word {
+    font-size: 2.1rem;
+  }
+
+  .wd-slip {
+    max-width: none;
+    flex-basis: 135px;
+  }
+
+  .wd-deck-stack {
+    width: 132px;
+    height: 94px;
+  }
+
+  .wd-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .wd-title {
+    font-size: 1.3rem;
+    padding: 10px 18px 12px;
+  }
+
+  .wd-title-glass {
+    right: -24px;
+    top: -18px;
+    width: 26px;
+    height: 30px;
+  }
+
+  /* single-column desk: tabs → case → deck → casebook (§15:
+     the notebook collapses to a stamps strip + disclosure) */
+  .wd-desk {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'tabs'
+      'case'
+      'deck'
+      'casebook';
+    padding: 18px 12px 16px;
+    row-gap: 18px;
+    column-gap: 0;
+  }
+
+  .wd-case {
+    width: min(88vw, 100%);
+    margin-inline: auto;
+    transform: rotate(-1.2deg);
+    padding: 34px 16px 24px;
+  }
+
+  .wd-word {
+    font-size: 2rem;
+  }
+
+  .wd-slips {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .wd-slip {
+    max-width: none;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 56px;
+  }
+
+  .wd-slip-1 {
+    margin-top: 0;
+  }
+
+  .wd-deck {
+    justify-self: center;
+    padding-bottom: 2px;
+  }
+
+  /* section-internal horizontal strips (never page overflow) */
+  .wd-tabs-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    /* the last keycap keeps clear of the faded edge, so the strip
+       ends on a whole letter (Z) instead of a half-faded one */
+    padding-right: 28px;
+    /* the strip is a keyboard tray, not a document: no desktop
+       scrollbar on a phone — the faded edge is the cue */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* one keycap per snap, so a swipe lands on a letter instead
+       of between two of them */
+    scroll-snap-type: x proximity;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+  }
+
+  .wd-tabs-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wd-tab {
+    scroll-snap-align: center;
+  }
+
+  /* ------------------------------------------------------------
+     The keycap strip runs far past the fold on a phone (27 keys
+     in a strip meant for one screenful), so it says so — and the
+     ñ key, the letter a Spanish learner wants first, is pinned
+     where it can be reached without hunting.
+
+     The tray keeps a gutter on the right: the keys fade into the
+     desk there (the strip continues), and the ñ keycap sits in
+     the gutter, always visible and always one tap away.
+     ------------------------------------------------------------ */
+  .wd-tabs {
+    position: relative;
+    padding-right: 58px;
+  }
+
+  .wd-tabs-caption::after {
+    content: ' → swipe for more';
+    color: var(--ink-faint);
+  }
+
+  .wd-tabs::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 58px;
+    bottom: 0;
+    width: 26px;
+    z-index: 1;
+    pointer-events: none;
+    /* the keys dissolve into the desk paper — the strip continues */
+    background: linear-gradient(to right, transparent, var(--paper));
+  }
+
+  /* the ñ keycap, lifted out of the strip and taped to the edge
+     of the tray: it keeps its place in the keyboard order (so the
+     keyboard path is unchanged) and it is always visible — the
+     letter a Spanish learner wants first, without hunting for it
+     740px down the strip */
+  .wd-tabs-row .wd-tab[aria-label*='letter Ñ'] {
+    position: absolute;
+    bottom: 10px;
+    right: 4px;
+    z-index: 3;
+  }
+
+  /* the tape that says "this one is pinned on top" */
+  .wd-tabs-row .wd-tab[aria-label*='letter Ñ']::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    translate: -50% 0;
+    width: 26px;
+    height: 10px;
+    background: rgba(255, 245, 180, 0.85);
+    border: 1px solid rgba(34, 34, 34, 0.25);
+    transform: rotate(-4deg);
+  }
+
+  /* the discovery sheet reads as a near-full-width page */
+  .wd-reveal-backdrop {
+    padding: 10px;
+  }
+
+  .wd-reveal {
+    padding: 18px 16px 16px;
+    transform: rotate(-0.3deg);
+  }
+
+  .wd-reveal-words {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------
+   Reduced motion: every animation/transition off, all
+   information and states kept (base styles are the resting
+   state, so nothing depends on motion to be visible)
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .word-detective,
+  .word-detective *,
+  .word-detective *::before,
+  .word-detective *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

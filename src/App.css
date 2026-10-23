@@ -1,0 +1,31 @@
+/* ============================================================
+   App shell
+   ============================================================ */
+
+#root {
+  min-height: 100vh;
+}
+
+/* The wrapper for the whole page.
+   Widths and padding come from the token layer so the shell
+   and the game agree on the page's measure. */
+.page-wrapper {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-5) var(--space-16);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-12);
+}
+
+@media (max-width: 600px) {
+  .page-wrapper {
+    padding: var(--space-4) var(--space-3) var(--space-10);
+    gap: var(--space-8);
+  }
+}
+
+/* The game section (.game-section) and its 27-card grid styles
+   moved out: the game is now the Word Detective desk scene
+   (src/components/WordDetective.css, Slice 004a). */

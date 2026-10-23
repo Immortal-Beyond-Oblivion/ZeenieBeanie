@@ -1,0 +1,738 @@
+{
+  "schema": "lexicon-review-baseline/1",
+  "source": "src/data/lexicon/*.ts — the 81 grandfathered prototype-live entries (Slice 004c §13 M1, migrated from src/components/data.ts on 2026-10-06)",
+  "captured": "2026-10-06",
+  "immutable": true,
+  "note": "FROZEN SNAPSHOT of the original 81 grandfathered entries. This file is never edited: it is the machine-readable anchor the review worksheet is checked against (scripts/lexicon-bundle-check.mjs). The human-editable worksheet is content/lexicon/LEGACY-81-ENTRIES-REVIEW.md, whose *Decision* column is where review decisions are recorded.",
+  "entries": [
+    {
+      "id": "a-arbol",
+      "letter": "A",
+      "word": "árbol",
+      "syllables": "ár-bol",
+      "glossEN": "tree",
+      "sentenceES": "El árbol es muy alto.",
+      "notes": null
+    },
+    {
+      "id": "a-amiga",
+      "letter": "A",
+      "word": "amiga",
+      "syllables": "a-mi-ga",
+      "glossEN": "friend",
+      "sentenceES": "Mi amiga vive en Madrid.",
+      "notes": null
+    },
+    {
+      "id": "a-agua",
+      "letter": "A",
+      "word": "agua",
+      "syllables": "a-gua",
+      "glossEN": "water",
+      "sentenceES": "Quiero un vaso de agua.",
+      "notes": null
+    },
+    {
+      "id": "b-bueno",
+      "letter": "B",
+      "word": "bueno",
+      "syllables": "bue-no",
+      "glossEN": "good",
+      "sentenceES": "Este café es muy bueno.",
+      "notes": null
+    },
+    {
+      "id": "b-beso",
+      "letter": "B",
+      "word": "beso",
+      "syllables": "be-so",
+      "glossEN": "kiss",
+      "sentenceES": "Ella da un beso a su hijo.",
+      "notes": null
+    },
+    {
+      "id": "b-barco",
+      "letter": "B",
+      "word": "barco",
+      "syllables": "bar-co",
+      "glossEN": "boat",
+      "sentenceES": "El barco está en el mar.",
+      "notes": null
+    },
+    {
+      "id": "c-casa",
+      "letter": "C",
+      "word": "casa",
+      "syllables": "ca-sa",
+      "glossEN": "house",
+      "sentenceES": "Mi casa es pequeña.",
+      "notes": null
+    },
+    {
+      "id": "c-comida",
+      "letter": "C",
+      "word": "comida",
+      "syllables": "co-mi-da",
+      "glossEN": "food",
+      "sentenceES": "La comida está rica.",
+      "notes": null
+    },
+    {
+      "id": "c-cielo",
+      "letter": "C",
+      "word": "cielo",
+      "syllables": "cie-lo",
+      "glossEN": "sky",
+      "sentenceES": "El cielo está azul.",
+      "notes": null
+    },
+    {
+      "id": "d-dedo",
+      "letter": "D",
+      "word": "dedo",
+      "syllables": "de-do",
+      "glossEN": "finger",
+      "sentenceES": "Tengo diez dedos.",
+      "notes": null
+    },
+    {
+      "id": "d-dia",
+      "letter": "D",
+      "word": "día",
+      "syllables": "dí-a",
+      "glossEN": "day",
+      "sentenceES": "Hoy es un buen día.",
+      "notes": "Monosílabo ortográfico con hiato: sílabas dí-a (acento por diéresis/hiato)."
+    },
+    {
+      "id": "d-dos",
+      "letter": "D",
+      "word": "dos",
+      "syllables": "dos",
+      "glossEN": "two",
+      "sentenceES": "Tengo dos gatos.",
+      "notes": null
+    },
+    {
+      "id": "e-escuela",
+      "letter": "E",
+      "word": "escuela",
+      "syllables": "es-cue-la",
+      "glossEN": "school",
+      "sentenceES": "Voy a la escuela.",
+      "notes": null
+    },
+    {
+      "id": "e-estrella",
+      "letter": "E",
+      "word": "estrella",
+      "syllables": "es-tre-lla",
+      "glossEN": "star",
+      "sentenceES": "La estrella es brillante.",
+      "notes": null
+    },
+    {
+      "id": "e-espanol",
+      "letter": "E",
+      "word": "español",
+      "syllables": "es-pa-ñol",
+      "glossEN": "Spanish",
+      "sentenceES": "Hablo español.",
+      "notes": null
+    },
+    {
+      "id": "f-flor",
+      "letter": "F",
+      "word": "flor",
+      "syllables": "flor",
+      "glossEN": "flower",
+      "sentenceES": "La flor es bonita.",
+      "notes": null
+    },
+    {
+      "id": "f-fruta",
+      "letter": "F",
+      "word": "fruta",
+      "syllables": "fru-ta",
+      "glossEN": "fruit",
+      "sentenceES": "Me gusta la fruta.",
+      "notes": null
+    },
+    {
+      "id": "f-fuego",
+      "letter": "F",
+      "word": "fuego",
+      "syllables": "fue-go",
+      "glossEN": "fire",
+      "sentenceES": "El fuego es caliente.",
+      "notes": null
+    },
+    {
+      "id": "g-gato",
+      "letter": "G",
+      "word": "gato",
+      "syllables": "ga-to",
+      "glossEN": "cat",
+      "sentenceES": "El gato duerme en el sofá.",
+      "notes": null
+    },
+    {
+      "id": "g-guitarra",
+      "letter": "G",
+      "word": "guitarra",
+      "syllables": "gui-tar-ra",
+      "glossEN": "guitar",
+      "sentenceES": "Toco la guitarra.",
+      "notes": null
+    },
+    {
+      "id": "g-gracias",
+      "letter": "G",
+      "word": "gracias",
+      "syllables": "gra-cias",
+      "glossEN": "thanks",
+      "sentenceES": "Muchas gracias.",
+      "notes": null
+    },
+    {
+      "id": "h-hola",
+      "letter": "H",
+      "word": "hola",
+      "syllables": "ho-la",
+      "glossEN": "hello",
+      "sentenceES": "Hola, ¿cómo estás?",
+      "notes": null
+    },
+    {
+      "id": "h-hambre",
+      "letter": "H",
+      "word": "hambre",
+      "syllables": "ham-bre",
+      "glossEN": "hunger",
+      "sentenceES": "Tengo hambre.",
+      "notes": null
+    },
+    {
+      "id": "h-hoja",
+      "letter": "H",
+      "word": "hoja",
+      "syllables": "ho-ja",
+      "glossEN": "leaf",
+      "sentenceES": "La hoja es verde.",
+      "notes": null
+    },
+    {
+      "id": "i-idea",
+      "letter": "I",
+      "word": "idea",
+      "syllables": "i-de-a",
+      "glossEN": "idea",
+      "sentenceES": "Tengo una idea.",
+      "notes": null
+    },
+    {
+      "id": "i-invierno",
+      "letter": "I",
+      "word": "invierno",
+      "syllables": "in-vier-no",
+      "glossEN": "winter",
+      "sentenceES": "En invierno hace frío.",
+      "notes": null
+    },
+    {
+      "id": "i-isla",
+      "letter": "I",
+      "word": "isla",
+      "syllables": "is-la",
+      "glossEN": "island",
+      "sentenceES": "La isla es bonita.",
+      "notes": null
+    },
+    {
+      "id": "j-jamon",
+      "letter": "J",
+      "word": "jamón",
+      "syllables": "ja-món",
+      "glossEN": "ham",
+      "sentenceES": "Me gusta el jamón.",
+      "notes": null
+    },
+    {
+      "id": "j-juego",
+      "letter": "J",
+      "word": "juego",
+      "syllables": "jue-go",
+      "glossEN": "game",
+      "sentenceES": "Juego al fútbol los sábados.",
+      "notes": null
+    },
+    {
+      "id": "j-jugo",
+      "letter": "J",
+      "word": "jugo",
+      "syllables": "ju-go",
+      "glossEN": "juice",
+      "sentenceES": "Quiero jugo de naranja.",
+      "notes": "Variante regional: en España se dice \"zumo\"."
+    },
+    {
+      "id": "k-kilo",
+      "letter": "K",
+      "word": "kilo",
+      "syllables": "ki-lo",
+      "glossEN": "kilo",
+      "sentenceES": "Un kilo de manzanas.",
+      "notes": "Letter-level: la K se usa casi solo en extranjerismos y unidades; elección de vocabulario pendiente de revisión."
+    },
+    {
+      "id": "k-kiwi",
+      "letter": "K",
+      "word": "kiwi",
+      "syllables": "ki-wi",
+      "glossEN": "kiwi",
+      "sentenceES": "El kiwi es verde.",
+      "notes": "Extranjerismo aceptado por la RAE."
+    },
+    {
+      "id": "k-kiosco",
+      "letter": "K",
+      "word": "kiosco",
+      "syllables": "kios-co",
+      "glossEN": "kiosk",
+      "sentenceES": "Compro el periódico en el kiosco.",
+      "notes": null
+    },
+    {
+      "id": "l-libro",
+      "letter": "L",
+      "word": "libro",
+      "syllables": "li-bro",
+      "glossEN": "book",
+      "sentenceES": "Leo un libro.",
+      "notes": null
+    },
+    {
+      "id": "l-lengua",
+      "letter": "L",
+      "word": "lengua",
+      "syllables": "len-gua",
+      "glossEN": "language",
+      "sentenceES": "Hablo dos lenguas.",
+      "notes": null
+    },
+    {
+      "id": "l-luna",
+      "letter": "L",
+      "word": "luna",
+      "syllables": "lu-na",
+      "glossEN": "moon",
+      "sentenceES": "La luna es grande.",
+      "notes": null
+    },
+    {
+      "id": "m-madre",
+      "letter": "M",
+      "word": "madre",
+      "syllables": "ma-dre",
+      "glossEN": "mother",
+      "sentenceES": "Mi madre es amable.",
+      "notes": null
+    },
+    {
+      "id": "m-mesa",
+      "letter": "M",
+      "word": "mesa",
+      "syllables": "me-sa",
+      "glossEN": "table",
+      "sentenceES": "Pongo el libro en la mesa.",
+      "notes": null
+    },
+    {
+      "id": "m-musica",
+      "letter": "M",
+      "word": "música",
+      "syllables": "mú-si-ca",
+      "glossEN": "music",
+      "sentenceES": "La música es bonita.",
+      "notes": null
+    },
+    {
+      "id": "n-nino",
+      "letter": "N",
+      "word": "niño",
+      "syllables": "ni-ño",
+      "glossEN": "boy",
+      "sentenceES": "El niño juega.",
+      "notes": null
+    },
+    {
+      "id": "n-nube",
+      "letter": "N",
+      "word": "nube",
+      "syllables": "nu-be",
+      "glossEN": "cloud",
+      "sentenceES": "La nube es blanca.",
+      "notes": null
+    },
+    {
+      "id": "n-nombre",
+      "letter": "N",
+      "word": "nombre",
+      "syllables": "nom-bre",
+      "glossEN": "name",
+      "sentenceES": "Escribe tu nombre.",
+      "notes": null
+    },
+    {
+      "id": "ñ-nandu",
+      "letter": "Ñ",
+      "word": "ñandú",
+      "syllables": "ñan-dú",
+      "glossEN": "rhea",
+      "sentenceES": "El ñandú corre rápido.",
+      "notes": "Ave sudamericana; vocabulario especializado. El vocabulario inicial con ñ es limitado: palabras como niño (ver letra N), sueño o moño contienen ñ pero empiezan con otras letras. Instructor puede sustituir."
+    },
+    {
+      "id": "ñ-name",
+      "letter": "Ñ",
+      "word": "ñame",
+      "syllables": "ña-me",
+      "glossEN": "yam",
+      "sentenceES": "El ñame se come hervido.",
+      "notes": "También frecuente en Canarias y América; verificar si encaja en el registro del curso."
+    },
+    {
+      "id": "ñ-nora",
+      "letter": "Ñ",
+      "word": "ñora",
+      "syllables": "ño-ra",
+      "glossEN": "ñora pepper",
+      "sentenceES": "La ñora es un pimiento.",
+      "notes": "Pimiento típico de España; vocabulario regional — revisar."
+    },
+    {
+      "id": "o-ojo",
+      "letter": "O",
+      "word": "ojo",
+      "syllables": "o-jo",
+      "glossEN": "eye",
+      "sentenceES": "Cierra los ojos.",
+      "notes": "La frase usa la forma plural \"ojos\"; decisión de regirse por el instructor (forma singular vs. frase natural)."
+    },
+    {
+      "id": "o-oro",
+      "letter": "O",
+      "word": "oro",
+      "syllables": "o-ro",
+      "glossEN": "gold",
+      "sentenceES": "El oro es valioso.",
+      "notes": null
+    },
+    {
+      "id": "o-oveja",
+      "letter": "O",
+      "word": "oveja",
+      "syllables": "o-ve-ja",
+      "glossEN": "sheep",
+      "sentenceES": "La oveja es blanca.",
+      "notes": null
+    },
+    {
+      "id": "p-pan",
+      "letter": "P",
+      "word": "pan",
+      "syllables": "pan",
+      "glossEN": "bread",
+      "sentenceES": "El pan está fresco.",
+      "notes": null
+    },
+    {
+      "id": "p-perro",
+      "letter": "P",
+      "word": "perro",
+      "syllables": "pe-rro",
+      "glossEN": "dog",
+      "sentenceES": "El perro corre en el parque.",
+      "notes": null
+    },
+    {
+      "id": "p-playa",
+      "letter": "P",
+      "word": "playa",
+      "syllables": "pla-ya",
+      "glossEN": "beach",
+      "sentenceES": "Vamos a la playa.",
+      "notes": null
+    },
+    {
+      "id": "q-queso",
+      "letter": "Q",
+      "word": "queso",
+      "syllables": "que-so",
+      "glossEN": "cheese",
+      "sentenceES": "Me gusta el queso.",
+      "notes": "Letter-level: la Q aparece casi siempre con U (que, quí); instructor puede preferir otra palabra."
+    },
+    {
+      "id": "q-que",
+      "letter": "Q",
+      "word": "qué",
+      "syllables": "qué",
+      "glossEN": "what",
+      "sentenceES": "¿Qué quieres?",
+      "notes": "Monosílabo tónico; se usa casi siempre en preguntas — idoneidad como vocabulario de letra Q a criterio del instructor."
+    },
+    {
+      "id": "q-quien",
+      "letter": "Q",
+      "word": "quien",
+      "syllables": "quien",
+      "glossEN": "who",
+      "sentenceES": "¿Quién es?",
+      "notes": "La frase usa la forma tónica \"quién\" (con acento); la entrada muestra la forma base \"quien\"."
+    },
+    {
+      "id": "r-raton",
+      "letter": "R",
+      "word": "ratón",
+      "syllables": "ra-tón",
+      "glossEN": "mouse",
+      "sentenceES": "El ratón come queso.",
+      "notes": null
+    },
+    {
+      "id": "r-reloj",
+      "letter": "R",
+      "word": "reloj",
+      "syllables": "re-loj",
+      "glossEN": "clock",
+      "sentenceES": "Miro el reloj.",
+      "notes": null
+    },
+    {
+      "id": "r-rosa",
+      "letter": "R",
+      "word": "rosa",
+      "syllables": "ro-sa",
+      "glossEN": "rose",
+      "sentenceES": "La rosa es roja.",
+      "notes": null
+    },
+    {
+      "id": "s-sol",
+      "letter": "S",
+      "word": "sol",
+      "syllables": "sol",
+      "glossEN": "sun",
+      "sentenceES": "El sol brilla.",
+      "notes": null
+    },
+    {
+      "id": "s-silla",
+      "letter": "S",
+      "word": "silla",
+      "syllables": "si-lla",
+      "glossEN": "chair",
+      "sentenceES": "Me siento en la silla.",
+      "notes": null
+    },
+    {
+      "id": "s-semana",
+      "letter": "S",
+      "word": "semana",
+      "syllables": "se-ma-na",
+      "glossEN": "week",
+      "sentenceES": "La semana tiene siete días.",
+      "notes": null
+    },
+    {
+      "id": "t-tarde",
+      "letter": "T",
+      "word": "tarde",
+      "syllables": "tar-de",
+      "glossEN": "afternoon",
+      "sentenceES": "Buenas tardes.",
+      "notes": null
+    },
+    {
+      "id": "t-taza",
+      "letter": "T",
+      "word": "taza",
+      "syllables": "ta-za",
+      "glossEN": "cup",
+      "sentenceES": "La taza de café está caliente.",
+      "notes": null
+    },
+    {
+      "id": "t-tiempo",
+      "letter": "T",
+      "word": "tiempo",
+      "syllables": "tiem-po",
+      "glossEN": "weather",
+      "sentenceES": "Hoy hace buen tiempo.",
+      "notes": "La palabra \"tiempo\" también significa \"time\"; el gloss elige \"weather\" por la frase. Instructor puede ajustar."
+    },
+    {
+      "id": "u-universo",
+      "letter": "U",
+      "word": "universo",
+      "syllables": "u-ni-ver-so",
+      "glossEN": "universe",
+      "sentenceES": "El universo es enorme.",
+      "notes": null
+    },
+    {
+      "id": "u-uniforme",
+      "letter": "U",
+      "word": "uniforme",
+      "syllables": "u-ni-for-me",
+      "glossEN": "uniform",
+      "sentenceES": "Mi uniforme es azul.",
+      "notes": null
+    },
+    {
+      "id": "u-uva",
+      "letter": "U",
+      "word": "uva",
+      "syllables": "u-va",
+      "glossEN": "grape",
+      "sentenceES": "La uva es dulce.",
+      "notes": null
+    },
+    {
+      "id": "v-vaso",
+      "letter": "V",
+      "word": "vaso",
+      "syllables": "va-so",
+      "glossEN": "glass",
+      "sentenceES": "El vaso está lleno.",
+      "notes": null
+    },
+    {
+      "id": "v-verde",
+      "letter": "V",
+      "word": "verde",
+      "syllables": "ver-de",
+      "glossEN": "green",
+      "sentenceES": "La hierba es verde.",
+      "notes": null
+    },
+    {
+      "id": "v-viaje",
+      "letter": "V",
+      "word": "viaje",
+      "syllables": "via-je",
+      "glossEN": "trip",
+      "sentenceES": "Voy de viaje en verano.",
+      "notes": null
+    },
+    {
+      "id": "w-wifi",
+      "letter": "W",
+      "word": "wifi",
+      "syllables": "wi-fi",
+      "glossEN": "Wi-Fi",
+      "sentenceES": "Me conecto al wifi.",
+      "notes": "Letter-level: las palabras con W son casi todas extranjerismos; instructor puede preferir limitar esta letra. Extranjerismo aceptado por la RAE."
+    },
+    {
+      "id": "w-whisky",
+      "letter": "W",
+      "word": "whisky",
+      "syllables": "whis-ky",
+      "glossEN": "whisky",
+      "sentenceES": "El whisky es una bebida.",
+      "notes": "Extranjerismo; pronunciación en español incierta (whis-ky / guis-ky) — requiere decisión del instructor."
+    },
+    {
+      "id": "w-wok",
+      "letter": "W",
+      "word": "wok",
+      "syllables": "wok",
+      "glossEN": "wok",
+      "sentenceES": "Cocino el arroz en el wok.",
+      "notes": "Extranjerismo aceptado por la RAE."
+    },
+    {
+      "id": "x-xilofono",
+      "letter": "X",
+      "word": "xilófono",
+      "syllables": "xi-ló-fo-no",
+      "glossEN": "xylophone",
+      "sentenceES": "Toco el xilófono en clase.",
+      "notes": "Letter-level: las palabras con X inicial son raras y mayoritariamente especializadas o extranjerismos; instructor puede optar por omitir o sustituir."
+    },
+    {
+      "id": "x-xenofobia",
+      "letter": "X",
+      "word": "xenofobia",
+      "syllables": "xe-no-fo-bia",
+      "glossEN": "xenophobia",
+      "sentenceES": "La xenofobia es un problema.",
+      "notes": "Vocabulario abstracto/avanzado y tema sensible; confirmar idoneidad para nivel principiante."
+    },
+    {
+      "id": "x-xirimoia",
+      "letter": "X",
+      "word": "xirimoia",
+      "syllables": "xi-ri-mo-ia",
+      "glossEN": "pawpaw",
+      "sentenceES": "La xirimoia es una fruta.",
+      "notes": "Fruta poco común; variante regional de la chirimoya — revisar si se mantiene."
+    },
+    {
+      "id": "y-yo",
+      "letter": "Y",
+      "word": "yo",
+      "syllables": "yo",
+      "glossEN": "I",
+      "sentenceES": "Yo hablo español.",
+      "notes": null
+    },
+    {
+      "id": "y-yoga",
+      "letter": "Y",
+      "word": "yoga",
+      "syllables": "yo-ga",
+      "glossEN": "yoga",
+      "sentenceES": "Hago yoga por la mañana.",
+      "notes": null
+    },
+    {
+      "id": "y-yogur",
+      "letter": "Y",
+      "word": "yogur",
+      "syllables": "yo-gur",
+      "glossEN": "yogurt",
+      "sentenceES": "Como yogur con fruta.",
+      "notes": "Forma preferida por la RAE: \"yogur\" (también \"yoghurt\")."
+    },
+    {
+      "id": "z-zapato",
+      "letter": "Z",
+      "word": "zapato",
+      "syllables": "za-pa-to",
+      "glossEN": "shoe",
+      "sentenceES": "Me pongo los zapatos.",
+      "notes": null
+    },
+    {
+      "id": "z-zorro",
+      "letter": "Z",
+      "word": "zorro",
+      "syllables": "zo-rro",
+      "glossEN": "fox",
+      "sentenceES": "El zorro es listo.",
+      "notes": null
+    },
+    {
+      "id": "z-zona",
+      "letter": "Z",
+      "word": "zona",
+      "syllables": "zo-na",
+      "glossEN": "zone",
+      "sentenceES": "La zona es tranquila.",
+      "notes": null
+    }
+  ]
+}

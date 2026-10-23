@@ -1,0 +1,285 @@
+/* ============================================================
+   Classes — what a lesson is like
+
+   Four tilted paper slips on a sticky note, not a feature grid.
+   Colours come from the token layer only.
+   ============================================================ */
+
+.classes {
+  width: 100%;
+}
+
+.classes-head {
+  margin-bottom: var(--space-8);
+}
+
+.classes-kicker {
+  margin: 0 0 var(--space-2);
+  font-size: 0.72rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--pink-deep);
+}
+
+/* the heading is a pinned stamp on the page */
+.classes-title {
+  display: inline-block;
+  margin: 0;
+  padding: var(--space-2) var(--space-5);
+  background-color: var(--ink);
+  color: var(--paper-bright);
+  border: var(--rule) solid var(--paper-bright);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transform: rotate(-1.2deg);
+  font-size: clamp(1.3rem, 3.2vw, 1.9rem);
+}
+
+/* ------------------------------------------------------------
+   The slips — staggered two-up, each tilted its own way
+   ------------------------------------------------------------ */
+.classes-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-8);
+}
+
+.classes-card {
+  position: relative;
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  background-color: var(--paper-bright);
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--ink) 8%, transparent) 1px,
+    transparent 1.2px
+  );
+  background-size: 22px 22px;
+  border: var(--rule) solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* a slip of tape on each card */
+.classes-card::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 84px;
+  height: 24px;
+  margin-left: -42px;
+  background: color-mix(in srgb, var(--paper-bright) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  box-shadow: var(--shadow-tape);
+  transform: rotate(-3deg);
+}
+
+.classes-card:nth-child(1) {
+  transform: rotate(-0.8deg);
+}
+
+.classes-card:nth-child(2) {
+  transform: rotate(0.9deg);
+  margin-top: var(--space-6);
+}
+
+.classes-card:nth-child(3) {
+  transform: rotate(0.7deg);
+}
+
+.classes-card:nth-child(4) {
+  transform: rotate(-0.9deg);
+  margin-top: var(--space-6);
+}
+
+/* the marigold sticker carrying the doodle */
+.classes-card__sticker {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: var(--space-4);
+  background-color: var(--marigold);
+  border: var(--rule) solid var(--ink);
+  border-radius: 46% 54% 52% 48% / 55% 48% 52% 45%;
+  box-shadow: 2px 2px 0 var(--ink);
+  transform: rotate(-6deg);
+}
+
+.classes-card__icon {
+  width: 28px;
+  height: 28px;
+  overflow: visible;
+}
+
+.classes-card__icon path,
+.classes-card__icon circle {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.classes-card__title {
+  margin: 0 0 var(--space-2);
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.classes-card__body {
+  margin: 0;
+  max-width: var(--measure);
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+/* ------------------------------------------------------------
+   Who it suits — a torn strip of chips
+   ------------------------------------------------------------ */
+.classes-suits {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-8);
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--paper-warm);
+  border: var(--rule-light) dashed var(--ink);
+  border-radius: var(--radius-md);
+  transform: rotate(-0.4deg);
+}
+
+.classes-suits__label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: var(--weight-heavy);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pink-deep);
+}
+
+.classes-suits__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.classes-suits__chip {
+  padding: var(--space-2) var(--space-4);
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--paper-pure);
+  border: var(--rule-light) solid var(--ink);
+  border-radius: var(--radius-pill);
+  box-shadow: 2px 2px 0 var(--ink);
+  font-size: 0.85rem;
+  font-weight: var(--weight-bold);
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------
+   Trial-class call to action
+   ------------------------------------------------------------ */
+.classes-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-5);
+  margin-top: var(--space-8);
+}
+
+.classes-cta__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-4) var(--space-6);
+  background-color: var(--marigold);
+  border: var(--rule) solid var(--ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  color: var(--ink);
+  font-weight: var(--weight-heavy);
+  font-size: 1rem;
+  text-decoration: none;
+  transform: rotate(-1.4deg);
+  transition: transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.classes-cta__link:hover {
+  color: var(--ink);
+  transform: rotate(-1.4deg) translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.classes-cta__arrow {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.classes-cta__arrow path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.classes-cta__note {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------------
+   Responsive — rearranged, never merely shrunk
+   ------------------------------------------------------------ */
+@media (max-width: 760px) {
+  .classes-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  /* the stagger flattens into a stack of slips */
+  .classes-card:nth-child(2),
+  .classes-card:nth-child(4) {
+    margin-top: 0;
+  }
+
+  .classes-card:nth-child(1),
+  .classes-card:nth-child(2),
+  .classes-card:nth-child(3),
+  .classes-card:nth-child(4) {
+    transform: none;
+  }
+
+  .classes-card {
+    padding: var(--space-8) var(--space-5) var(--space-5);
+  }
+
+  .classes-suits {
+    padding: var(--space-5);
+  }
+
+  .classes-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .classes-cta__link {
+    width: 100%;
+    justify-content: center;
+  }
+}

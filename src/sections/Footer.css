@@ -1,0 +1,70 @@
+/* ============================================================
+   Footer — small and quiet
+
+   The contact details stay reachable here too, without shouting.
+   Colours come from the token layer only.
+   ============================================================ */
+
+.site-footer {
+  margin-top: var(--space-8);
+  background-color: var(--paper-warm);
+  border-top: var(--rule-light) dashed var(--ink);
+}
+
+.site-footer__inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-5) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.site-footer__line {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.4px;
+  color: var(--ink-soft);
+}
+
+.site-footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2) var(--space-6);
+}
+
+.site-footer__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--space-1) var(--space-1);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.site-footer__fine {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--gold-text);
+}
+
+@media (max-width: 600px) {
+  .site-footer__inner {
+    padding: var(--space-6) var(--space-4) var(--space-8);
+    gap: var(--space-3);
+  }
+
+  .site-footer__links {
+    flex-direction: column;
+    gap: 0;
+  }
+}

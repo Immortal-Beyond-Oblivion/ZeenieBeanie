@@ -1,0 +1,261 @@
+/* ============================================================
+   Hero — the shell's front door.
+
+   Same language as the Word Detective desk: warm paper, ink
+   outlines, hard offset shadows, tape, slight tilt. The hero is a
+   taped case file lying on the cream desk with the cat detective
+   leaning against it.
+
+   Colour notes (measured, WCAG 2.1 relative luminance):
+     ink #222 on marigold #ffd93d  → 11.55:1   (the h1 sticker)
+     ink #222 on ivory #fffaf0    → 15.29:1   (body copy)
+     ink #222 on paper-warm #fff8e7 → 15.03:1 (fact chips)
+     pink-deep #7a1038 on pink-soft #ffe3ec → 8.91:1 (kicker chip)
+     ivory #fffaf0 on green #3f6b4a → 5.91:1   (CTA label)
+     (the old white-on-mustard h1 was 1.76:1 — a fail)
+   Focus rings are global (src/index.css) and are never repeated
+   here; only the shape of the focused element is preserved.
+   ============================================================ */
+
+.hero-section {
+  width: 100%;
+}
+
+/* ------------------------------------------------------------
+   The case file
+   ------------------------------------------------------------ */
+.hero-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-8);
+  max-width: 62ch;
+  margin-inline: auto;
+  padding: var(--space-10) var(--space-8) var(--space-8);
+  background-color: var(--paper-bright);
+  border: var(--rule) solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* tape strips — the game's paper language, not decoration for
+   its own sake: the file is physically pinned to the desk */
+.hero-tape {
+  position: absolute;
+  width: 104px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.55);
+  border-left: 1px solid rgba(34, 34, 34, 0.15);
+  border-right: 1px solid rgba(34, 34, 34, 0.15);
+  box-shadow: var(--shadow-tape);
+  pointer-events: none;
+}
+
+.hero-tape-top {
+  top: -13px;
+  left: 6%;
+  transform: rotate(-3.5deg);
+}
+
+.hero-tape-bottom {
+  bottom: -13px;
+  right: 8%;
+  transform: rotate(2.5deg);
+}
+
+/* ------------------------------------------------------------
+   The pitch
+   ------------------------------------------------------------ */
+.hero-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-kicker {
+  margin: 0 0 var(--space-4);
+  padding: 5px 14px;
+  background-color: var(--pink-soft);
+  color: var(--pink-deep);
+  border: var(--rule-light) solid var(--pink);
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transform: rotate(-1.2deg);
+}
+
+/* The headline is a marigold sticker with ink on it, not white
+   on mustard: ink on marigold is 11.55:1 (AAA, well past the 3:1
+   large-text floor). */
+.main-title {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0 0 var(--space-5);
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--marigold);
+  color: var(--ink);
+  border: var(--rule) solid var(--ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transform: rotate(-1.4deg);
+  font-size: clamp(2rem, 5.2vw, 3.4rem);
+  line-height: 1.08;
+}
+
+.hero-subtitle {
+  margin: 0 0 var(--space-4);
+  max-width: 44ch;
+  color: var(--ink);
+  font-size: clamp(1.05rem, 1.9vw, 1.25rem);
+  font-weight: var(--weight-bold);
+}
+
+.hero-tagline {
+  margin: 0 0 var(--space-6);
+  max-width: 52ch;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+/* small taped notes — what the visitor is actually getting */
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  list-style: none;
+  margin: 0 0 var(--space-6);
+  padding: 0;
+}
+
+.hero-fact {
+  padding: 6px 12px;
+  background-color: var(--paper-warm);
+  border: var(--rule-light) dashed var(--ink);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-size: 0.82rem;
+}
+
+.hero-fact:nth-child(odd) {
+  transform: rotate(-0.8deg);
+}
+
+.hero-fact:nth-child(even) {
+  transform: rotate(0.7deg);
+}
+
+/* ------------------------------------------------------------
+   The one call to action — a stamped label, not a web button
+   ------------------------------------------------------------ */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding: 12px var(--space-6);
+  background-color: var(--green);
+  color: var(--paper-bright);
+  border: var(--rule) solid var(--ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: var(--weight-heavy);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transform: rotate(-1deg);
+  transition: transform var(--dur-fast) var(--ease-bounce),
+              box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.hero-cta:hover {
+  color: var(--paper-bright);
+  transform: rotate(-1deg) translate(-1px, -2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-cta:active {
+  transform: rotate(-1deg) translate(3px, 3px);
+  box-shadow: 1px 1px 0 rgba(34, 34, 34, 1);
+}
+
+/* the global focus ring draws the ring; this only keeps the
+   button's own corners while it is focused */
+.hero-cta:focus-visible {
+  border-radius: var(--radius-md);
+}
+
+.hero-cta-arrow {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.hero-cta:hover .hero-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ------------------------------------------------------------
+   The mascot is out of the hero for now, pending a replacement.
+   The rules for it are kept in the stylesheet history in git, and
+   `scripts/build-mascot.sh` can restore it in one command.
+   ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   1024px and down — the file tightens up.
+   ------------------------------------------------------------ */
+@media (max-width: 1023px) {
+  .hero-card {
+    gap: var(--space-6);
+    padding: var(--space-8) var(--space-6) var(--space-8);
+  }
+}
+
+/* ------------------------------------------------------------
+   Phones — the call to action goes full width so it is an easy
+   thumb target.
+   ------------------------------------------------------------ */
+@media (max-width: 639px) {
+  .hero-card {
+    padding: var(--space-6) var(--space-5) var(--space-6);
+    border-radius: var(--radius-md);
+  }
+
+  /* tighter leading so the call to action stays close to the
+     fold on a phone */
+  .main-title {
+    margin-bottom: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    margin-bottom: var(--space-3);
+  }
+
+  .hero-tagline {
+    margin-bottom: var(--space-5);
+    font-size: 0.95rem;
+  }
+
+  .hero-facts {
+    margin-bottom: var(--space-5);
+  }
+
+  .hero-fact {
+    font-size: 0.78rem;
+  }
+
+  .hero-cta {
+    width: 100%;
+    /* tighter side padding so the label stays on one line at 320 */
+    padding: var(--space-3);
+  }
+}

@@ -1,0 +1,53 @@
+/* ============================================================
+   Skip link — the first thing in the tab order
+
+   Hidden until it takes focus, then it drops into the top-left
+   corner of the viewport as a taped index card. It is
+   position:fixed, so it never takes part in the page's flow and
+   can never push the layout around while it is out of sight.
+   ============================================================ */
+
+.skip-link {
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: var(--layer-skip);
+
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-5);
+
+  background-color: var(--paper-bright);
+  color: var(--ink);
+  border: var(--rule) solid var(--ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: var(--weight-heavy);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  /* Parked above the top edge of the viewport. The extra space
+     clears the card's own shadow so nothing peeks in. */
+  transform: translateY(calc(-100% - var(--space-8)));
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+/* :focus as well as :focus-visible: a skip link is reached by
+   keyboard, and the ring must show the moment it takes focus. */
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+}
+
+/* The global ring draws the ring; keep the card's own corners. */
+.skip-link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}

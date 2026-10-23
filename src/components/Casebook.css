@@ -1,0 +1,877 @@
+/* ============================================================
+   Word Detective — Casebook (Slice 004b, phase b2, spec §10)
+
+   A bound notebook on the desk: ivory paper, stitched spine,
+   hard 5px shadow, a slight crooked tilt — the same physical
+   language as the rest of the desk (R9). Stamps are physical
+   slots/rows: never bars, rings, meters, percentages, or
+   numerals (R7); every state is also NAMED in text (§14).
+
+   Carries the stamp visuals relocated from 004a's decorative
+   strip (superseded by this notebook as the §4 visible truth).
+
+   Colour notes (AA): ink #222 on ivory ≥12:1 · #444 on ivory
+   ≈9:1 · #7a5c12 on ivory ≈5.8:1 · #c2185b on #ffe3ec ≈5:1.
+   Focus ring #c2185b ≥3:1 on ivory/white/marigold.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   The notebook shell (grid area set by WordDetective.css desk)
+   ------------------------------------------------------------ */
+.wd-casebook {
+  grid-area: casebook;
+  position: relative;
+  box-sizing: border-box;
+  padding: 16px 16px 14px 22px;
+  background: #fffaf0;
+  background-image: radial-gradient(rgba(34, 34, 34, 0.08) 1.1px, transparent 1.2px);
+  background-size: 22px 22px;
+  border: 3px solid #222;
+  border-radius: 14px;
+  box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 1);
+  transform: rotate(-0.5deg);
+  text-align: left;
+}
+
+/* stitched binding down the spine */
+.wd-casebook::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 8px;
+  width: 0;
+  border-left: 3px dashed rgba(34, 34, 34, 0.45);
+}
+
+.cb-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.cb-title {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #222;
+  transform: rotate(-1deg);
+}
+
+.cb-sub {
+  margin: 10px 0 6px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: lowercase;
+  color: #444;
+}
+
+/* ------------------------------------------------------------
+   View switch (mystery / letters)
+   ------------------------------------------------------------ */
+.cb-views {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cb-view {
+  --view-y: 0px;
+  min-height: 44px;
+  padding: 7px 14px;
+  background: #fff;
+  border: 2.5px solid #222;
+  border-radius: 10px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: #222;
+  cursor: pointer;
+  transform: translateY(var(--view-y));
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.cb-view.is-current {
+  --view-y: 2px;
+  background: #ffd93d;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.25), 1px 1px 0 0 rgba(0, 0, 0, 1);
+}
+
+.cb-view:hover {
+  --view-y: -1px;
+}
+
+.cb-view.is-current:hover {
+  --view-y: 2px;
+}
+
+/* press-down, the same idiom as the desk's keycaps */
+.cb-view:active {
+  --view-y: 2px;
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.05s;
+}
+
+.cb-view:focus-visible,
+.cb-chip:focus-visible,
+.cb-reopen:focus-visible,
+.cb-disclosure:focus-visible,
+.cb-file:focus-visible,
+.cb-load-retry:focus-visible,
+.cb-reset:focus-visible {
+  outline: 3px dashed #c2185b;
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------
+   The disclosure — the only way into the casebook on a phone
+   (§15). It is a real button in the notebook's own language, so
+   it answers a press with the same press-down as every other
+   control on the desk.
+   ------------------------------------------------------------ */
+.cb-disclosure {
+  min-height: 44px;
+  padding: 8px 16px;
+  background: #ffd93d;
+  border: 3px solid #222;
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #222;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.cb-disclosure:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 4px 0 0 rgba(0, 0, 0, 1);
+}
+
+.cb-disclosure:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.05s;
+}
+
+/* ------------------------------------------------------------
+   Mystery view — opening, legend, slots, clues, file
+   ------------------------------------------------------------ */
+.cb-opening {
+  margin: 0 0 8px;
+  max-width: 62ch;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: #222;
+}
+
+/* state names in words — never shape alone (§14) */
+.cb-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 0 0 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #444;
+}
+
+.cb-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cb-slots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cb-slot {
+  position: relative;
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 4px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px dashed rgba(34, 34, 34, 0.35);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* an empty slot's word whispers; a stamped one speaks.
+   The board is where a learner reads a word most often, so it
+   speaks in the game's printed voice (Georgia) like every other
+   occurrence of the word — and in ink that passes AA on ivory:
+   --ink-soft #444 on #fffaf0 ≈ 9.4:1. */
+.cb-slot-word {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+/* the word has not arrived from the lexicon yet — a neutral
+   mark, never a raw id slug shown as if it were a word */
+.cb-slot-word.is-pending,
+.cb-row-word.is-pending,
+.cb-herring-word.is-pending {
+  color: var(--ink-faint);
+  letter-spacing: 2px;
+}
+
+.cb-slot.is-stamped {
+  background: #fff;
+  border-style: solid;
+  border-color: #222;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.85);
+}
+
+.cb-slot.is-stamped .cb-slot-word {
+  color: var(--ink);
+}
+
+.cb-slot .wd-stamp {
+  position: absolute;
+  right: -7px;
+  top: -9px;
+}
+
+/* clue beats — taped paper, reward as object (R7) */
+.cb-clue {
+  position: relative;
+  margin-top: 10px;
+  padding: 9px 10px 9px 34px;
+  background: #fff;
+  border: 2.5px solid #222;
+  border-radius: 6px;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.9);
+  transform: rotate(0.6deg);
+}
+
+.cb-clue-tape {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 54px;
+  height: 16px;
+  translate: -50% 0;
+  background: rgba(255, 245, 180, 0.85);
+  border: 1px solid rgba(34, 34, 34, 0.25);
+  transform: rotate(-2deg);
+}
+
+.cb-clue-art {
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  width: 24px;
+  height: 22px;
+  overflow: visible;
+}
+
+.cb-clue-art * {
+  fill: none;
+  stroke: #c2185b;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cb-clue-art ellipse {
+  fill: rgba(194, 24, 91, 0.12);
+}
+
+.cb-clue-text {
+  margin: 0;
+  max-width: 58ch;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #222;
+}
+
+.cb-clue-label {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+  color: #c2185b;
+}
+
+/* the stamped file — reopening the discovery (§14) */
+.cb-file {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 9px 12px;
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  cursor: pointer;
+  transform: rotate(-0.8deg);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.cb-file:hover {
+  transform: rotate(-0.8deg) translateY(-2px);
+}
+
+/* press-down, like the keycaps */
+.cb-file:active {
+  transform: rotate(-0.8deg) translateY(2px);
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.05s;
+}
+
+.cb-file-stamp {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 3px solid #c2185b;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: #c2185b;
+  transform: rotate(-4deg);
+}
+
+/* ------------------------------------------------------------
+   Letters view — chips are navigation, pages hold rows (R12)
+   ------------------------------------------------------------ */
+.cb-letter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* the letter chips ARE the navigation of the Letters view, so
+   they get the same press-down idiom as the desk's keycaps */
+.cb-chip {
+  --chip-y: 0px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 4px 8px;
+  background: #fff;
+  border: 2.5px solid #222;
+  border-radius: 9px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: #222;
+  cursor: pointer;
+  transform: translateY(var(--chip-y));
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.cb-chip:hover {
+  --chip-y: -2px;
+  box-shadow: 3px 4px 0 0 rgba(0, 0, 0, 1);
+}
+
+.cb-chip:active {
+  --chip-y: 2px;
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 1);
+  transition-duration: 0.05s;
+}
+
+.cb-chip.is-current {
+  --chip-y: 2px;
+  background: #ffd93d;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.25), 1px 1px 0 0 rgba(0, 0, 0, 1);
+}
+
+.cb-chip.is-current:hover {
+  --chip-y: 2px;
+}
+
+.cb-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cb-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 8px;
+  background: #fff;
+  border: 2px solid #222;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.8);
+}
+
+.cb-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cb-row-word {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.cb-row-gloss {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #7a5c12;
+  overflow-wrap: anywhere;
+}
+
+/* state named in text — never shape/color alone (§14) */
+.cb-state-tag {
+  flex: 0 0 auto;
+  max-width: 46%;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: right;
+  color: #444;
+}
+
+.cb-empty {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  color: #444;
+}
+
+/* ------------------------------------------------------------
+   The loader failed — a taped note in the notebook, in words,
+   with a way back (§7.2). The stamps below are still true.
+   ------------------------------------------------------------ */
+.cb-load-error {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 9px 11px;
+  background: var(--pink-soft);
+  border: 2px dashed var(--pink);
+  border-radius: 6px;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.cb-load-error-text {
+  flex: 1 1 180px;
+  min-width: 0;
+  font-size: 0.74rem;
+  font-weight: var(--weight-bold);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.cb-load-retry {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 7px 14px;
+  background: var(--marigold);
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: var(--weight-heavy);
+  font-size: 0.78rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.cb-load-retry:hover {
+  transform: translateY(-2px);
+}
+
+.cb-load-retry:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Red herrings — first-class reopen entry (R6/§6)
+   ------------------------------------------------------------ */
+.cb-herrings {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 2px dashed rgba(34, 34, 34, 0.3);
+}
+
+.cb-herrings ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cb-herring {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 5px 7px 5px 9px;
+  background: #fff;
+  border: 2.5px solid #c2185b;
+  border-radius: 999px;
+}
+
+.cb-herring-word {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #222;
+  overflow-wrap: anywhere;
+}
+
+.cb-reopen {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 7px 14px;
+  background: #ffd93d;
+  border: 2.5px solid #222;
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #222;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.cb-reopen:hover {
+  transform: translateY(-2px);
+}
+
+.cb-reopen:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Footer — reset control (R2/R16: visible, labeled, confirmed)
+   + mascot (relocated from 004a's stamp strip)
+   ------------------------------------------------------------ */
+.cb-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 2px dashed rgba(34, 34, 34, 0.3);
+}
+
+.cb-reset {
+  min-height: 44px;
+  padding: 8px 16px;
+  background: #fff;
+  border: 2.5px solid #222;
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #222;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.cb-reset:hover {
+  transform: translateY(-1px);
+}
+
+.cb-reset:active {
+  transform: translateY(1px);
+}
+
+/* the confirmation step: destructive means confirmed (§14) */
+.cb-confirm {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cb-confirm-text {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #c2185b;
+}
+
+.cb-reset-yes {
+  background: #ffd93d;
+  border-color: #c2185b;
+  color: #7a1038;
+}
+
+.cb-reset-no {
+  background: #fff;
+}
+
+.wd-cat {
+  width: 46px;
+  height: 42px;
+  transform: rotate(6deg);
+  overflow: visible;
+}
+
+.wd-cat path {
+  fill: none;
+  stroke: #222;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ------------------------------------------------------------
+   Stamp visuals (moved from the superseded desk strip —
+   physical marks, never numerals or meters)
+   ------------------------------------------------------------ */
+
+/* the stamp thuds into the paper — this keyframe lives HERE,
+   with the only rules that use it (it used to sit in
+   WordDetective.css and only worked by import order) */
+@keyframes wdStampPop {
+  0% {
+    scale: 0;
+    opacity: 0;
+  }
+  70% {
+    scale: 1.35;
+    opacity: 1;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+.wd-stamps-empty {
+  font-size: 0.72rem;
+  color: #666;
+  padding: 6px 14px;
+  border: 2px dashed rgba(34, 34, 34, 0.35);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.wd-stamp {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: 2.5px solid #222;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 1rem;
+  animation: wdStampPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+}
+
+.wd-stamp-mini {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+  font-size: 0.72rem;
+}
+
+.wd-stamp-mini .wd-fish {
+  width: 20px;
+  height: 13px;
+}
+
+/* solved — an ink check thudded into a gold disc */
+.wd-stamp-solved {
+  background: #ffd93d;
+  color: #222;
+}
+
+/* red herring — a hand-drawn red fish sticker (the pun is the
+   point); converted keeps the fish and adds a check overlay */
+.wd-stamp-red-herring,
+.wd-stamp-converted {
+  background: #ffe3ec;
+  color: #c2185b;
+  border-color: #c2185b;
+  border-radius: 46% 54% 52% 48% / 55% 48% 52% 45%;
+}
+
+.wd-stamp-converted {
+  background: #fff;
+}
+
+.wd-fish {
+  width: 30px;
+  height: 20px;
+  overflow: visible;
+}
+
+.wd-fish path {
+  fill: none;
+  stroke: #c2185b;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wd-fish circle {
+  fill: #c2185b;
+}
+
+.wd-fish .wd-fish-check {
+  stroke: #222;
+  stroke-width: 3;
+}
+
+/* playful resting tilts — one per slot position, not per state */
+.wd-tilt-1 {
+  rotate: -8deg;
+}
+
+.wd-tilt-2 {
+  rotate: 5deg;
+}
+
+.wd-tilt-3 {
+  rotate: -3deg;
+}
+
+/* ------------------------------------------------------------
+   Responsive — §15: the notebook opens across the desk on wide
+   screens (two pages side by side); tablet keeps it full width
+   under the desk column; ≤600px collapses to a stamps strip +
+   disclosure (the collapse itself is JS-driven via matchMedia so
+   aria-expanded stays truthful)
+   ------------------------------------------------------------ */
+@media (min-width: 1025px) {
+  /* The notebook lies open across the desk: the mystery board
+     takes the left page, the record column (red herrings, reset)
+     the right one. The board stops being a tall narrow column
+     and the desk stops having a hole beside it. */
+  .cb-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 16px 22px;
+  }
+
+  .cb-views,
+  .cb-load-error,
+  .cb-compact,
+  .cb-foot {
+    flex: 1 1 100%;
+  }
+
+  .cb-mystery,
+  .cb-letters {
+    flex: 1 1 460px;
+    min-width: 0;
+  }
+
+  .cb-herrings {
+    flex: 0 1 320px;
+    min-width: 260px;
+  }
+
+  .cb-slots {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* on the open spread the opening line and the legend share the
+     top band, so the page does not start with a hole */
+  .cb-mystery {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0 24px;
+  }
+
+  .cb-opening {
+    flex: 1 1 420px;
+  }
+
+  .cb-legend {
+    flex: 0 0 auto;
+  }
+
+  .cb-sub,
+  .cb-slots,
+  .cb-clue,
+  .cb-file {
+    flex: 1 1 100%;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .wd-casebook {
+    transform: rotate(-0.3deg);
+    padding: 14px 16px 12px 20px;
+  }
+
+  .cb-slots {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .wd-casebook {
+    transform: none;
+    padding: 14px 14px 12px 20px;
+  }
+
+  .cb-title {
+    transform: none;
+  }
+
+  /* compact strip: stamps in a row, disclosure beside the title */
+  .cb-compact-stamps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 4px 2px;
+  }
+
+  .cb-slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

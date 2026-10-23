@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""Rebuild public/illustrations/og-art.svg.
+
+The mascot is optional. The hero currently has no mascot, pending a
+replacement, so the shared-link image is built without one too —
+pass --with-cat to include it.
+
+    python3 scripts/build-og-art.py [--with-cat]
+"""
+import os
+import re
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+WITH_CAT = '--with-cat' in sys.argv
+
+CAT_BLOCK = '''
+__CAT_BLOCK__
+'''
+
+cat_block = ''
+mascot_path = os.path.join(ROOT, 'public/illustrations/cat-mascot.svg')
+if WITH_CAT and os.path.exists(mascot_path):
+    cat = open(mascot_path, encoding='utf-8').read()
+    inner = re.sub(r'^[\s\S]*?<svg[^>]*>\s*', '', cat, count=1)
+    inner = re.sub(r'</svg\s*>\s*$', '', inner)
+    vb = re.search(r'viewBox="([^"]*)"', cat).group(1)
+    cat_block = CAT_BLOCK.replace('__VB__', vb).replace('__INNER__', inner)
+else:
+    if WITH_CAT:
+        print('  (no mascot at %s — building without one)' % mascot_path)
+
+OG = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="ogTitle ogDesc">
+  <title id="ogTitle">A cat detective with a magnifying glass, among scattered vocabulary cards</title>
+  <desc id="ogDesc">Warm cream illustration of a small terracotta cat detective in a mustard cap and green scarf, surrounded by blank vocabulary cards, tiny hand-drawn stars and doodles.</desc>
+
+  <defs>
+    <path id="star" d="M0,-17 C2.2,-5.5 5.5,-2.2 17,0 C5.5,2.2 2.2,5.5 0,17 C-2.2,5.5 -5.5,2.2 -17,0 C-5.5,-2.2 -2.2,-5.5 0,-17 Z"/>
+
+    <g id="card">
+      <rect x="-6" y="-2" width="184" height="128" rx="16" fill="#b99a72"/>
+      <rect x="0" y="0" width="184" height="128" rx="16" fill="#fffaf0" stroke="#241f1c" stroke-width="6"/>
+      <g stroke="#241f1c" stroke-width="9" opacity=".55">
+        <path d="M28,40 h104"/>
+        <path d="M28,66 h124"/>
+        <path d="M28,92 h78"/>
+      </g>
+    </g>
+
+    <g id="card-sm">
+      <rect x="-5" y="-2" width="128" height="90" rx="13" fill="#b99a72"/>
+      <rect x="0" y="0" width="128" height="90" rx="13" fill="#e8ae3c" stroke="#241f1c" stroke-width="6"/>
+      <g stroke="#241f1c" stroke-width="8" opacity=".5">
+        <path d="M22,34 h66"/>
+        <path d="M22,56 h86"/>
+      </g>
+    </g>
+  </defs>
+
+  <!-- ground -->
+  <rect width="1200" height="630" fill="#fdf3dd"/>
+  <g opacity=".5">
+    <circle cx="150" cy="120" r="130" fill="#f6e2c0"/>
+    <circle cx="1080" cy="540" r="150" fill="#f4e6c4"/>
+    <circle cx="1030" cy="110" r="90" fill="#eef0dd"/>
+  </g>
+  <g fill="#241f1c" opacity=".06">
+    <circle cx="320" cy="80" r="3"/><circle cx="410" cy="180" r="2.4"/>
+    <circle cx="250" cy="300" r="2.6"/><circle cx="470" cy="420" r="3"/>
+    <circle cx="180" cy="470" r="2.4"/><circle cx="900" cy="90" r="2.6"/>
+    <circle cx="1140" cy="300" r="3"/><circle cx="760" cy="560" r="2.4"/>
+    <circle cx="60" cy="330" r="2.8"/><circle cx="1130" cy="180" r="2.4"/>
+  </g>
+  <path d="M0,556 C300,532 900,532 1200,556 L1200,630 L0,630 Z" fill="#f5e6cb"/>
+
+  <!-- scattered cards -->
+  <g transform="translate(150,190) rotate(-11)"><use href="#card"/></g>
+  <g transform="translate(392,118) rotate(7)"><use href="#card-sm"/></g>
+  <g transform="translate(214,410) rotate(9)"><use href="#card-sm"/></g>
+  <g transform="translate(452,300) rotate(-6)"><use href="#card"/></g>
+  <g transform="translate(1010,180) rotate(8)"><use href="#card-sm"/></g>
+
+  <!-- doodles -->
+  <g fill="none" stroke="#241f1c" stroke-width="6" opacity=".8" stroke-linecap="round">
+    <path d="M560,150 q30,-26 60,0 q30,26 60,0"/>
+    <path d="M90,360 q24,-20 48,0 q24,20 48,0"/>
+    <path d="M700,470 q26,-22 52,0 q26,22 52,0"/>
+    <path d="M1046,330 l20,-34 M1046,330 l44,-14"/>
+  </g>
+
+  <!-- sparkles -->
+  <g stroke="#241f1c" stroke-width="5" stroke-linejoin="round">
+    <use href="#star" fill="#e8ae3c" transform="translate(560,250) scale(1.15)"/>
+    <use href="#star" fill="#e8ae3c" transform="translate(1120,110) scale(.9)"/>
+    <use href="#star" fill="#3f6b4a" transform="translate(96,250) scale(.8)"/>
+    <use href="#star" fill="#3f6b4a" transform="translate(940,90) scale(.7)"/>
+    <use href="#star" fill="#fffaf0" transform="translate(340,560) scale(1)"/>
+    <use href="#star" fill="#fffaf0" transform="translate(880,570) scale(1)"/>
+  </g>
+
+__CAT_BLOCK__
+</svg>
+'''
+
+OG = OG.replace('__CAT_BLOCK__', cat_block)
+out = os.path.join(ROOT, 'public/illustrations/og-art.svg')
+open(out, 'w', encoding='utf-8').write(OG)
+print('wrote %s (%d bytes)' % (out, len(OG)))
